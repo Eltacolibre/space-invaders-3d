@@ -126,12 +126,12 @@ const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 60
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.75, 0.45, 0.3);
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.45, 0.3, 0.5);
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
 scene.add(new THREE.AmbientLight(0x223355, 1.2));
-const keyLight = new THREE.DirectionalLight(0x88aaff, 1.4);
+const keyLight = new THREE.DirectionalLight(0x88aaff, 2.2);
 keyLight.position.set(8, 20, 10);
 scene.add(keyLight);
 
@@ -226,7 +226,7 @@ const gridMat = new THREE.ShaderMaterial({
       float line = 1.0 - min(min(f.x, f.y), 1.0);
       float distFade = smoothstep(1.0, 0.25, length(vUv - 0.5) * 2.0);
       vec3 col = mix(vec3(1.0, 0.0, 0.85), vec3(0.0, 0.9, 1.0), vUv.y);
-      gl_FragColor = vec4(col * line * 1.6, line * distFade * 0.65);
+      gl_FragColor = vec4(col * line * 1.1, line * distFade * 0.5);
     }
   `,
 });
@@ -317,7 +317,7 @@ function spriteGeometry(type, frame) {
 function buildShip() {
   const ship = new THREE.Group();
   const hullMat = new THREE.MeshStandardMaterial({
-    color: 0x113344, emissive: 0x00ffee, emissiveIntensity: 0.9,
+    color: 0x1a4455, emissive: 0x00ffee, emissiveIntensity: 0.35,
     metalness: 0.7, roughness: 0.3,
   });
   const body = new THREE.Mesh(new THREE.ConeGeometry(0.9, 3.4, 4), hullMat);
@@ -326,7 +326,7 @@ function buildShip() {
   body.scale.set(1, 1, 0.5);
   ship.add(body);
   const wingMat = new THREE.MeshStandardMaterial({
-    color: 0x220a33, emissive: 0xff00cc, emissiveIntensity: 0.8,
+    color: 0x331044, emissive: 0xff00cc, emissiveIntensity: 0.4,
     metalness: 0.6, roughness: 0.4,
   });
   const wingGeo = new THREE.BoxGeometry(2.6, 0.12, 1.2);
@@ -345,7 +345,7 @@ function buildShip() {
   );
   engine.position.set(0, 0, 1.6);
   ship.add(engine);
-  const glow = new THREE.PointLight(0x00ffee, 14, 16);
+  const glow = new THREE.PointLight(0x00ffee, 5, 14);
   glow.position.set(0, 1.2, 0.5);
   ship.add(glow);
   ship.userData.engine = engine;
@@ -433,7 +433,7 @@ const playerBulletMat = new THREE.MeshBasicMaterial({ color: 0x66ffee });
 const enemyBulletMat = new THREE.MeshBasicMaterial({ color: 0xff4488 });
 
 const invaderMats = ROW_COLORS.map(c => new THREE.MeshStandardMaterial({
-  color: 0x0a0a14, emissive: c, emissiveIntensity: 0.65, metalness: 0.4, roughness: 0.5,
+  color: 0x10101e, emissive: c, emissiveIntensity: 0.5, metalness: 0.4, roughness: 0.5,
 }));
 
 function spawnFleet() {
@@ -466,7 +466,7 @@ function clearProjectiles() {
 function buildUfo() {
   const g = new THREE.Group();
   const mat = new THREE.MeshStandardMaterial({
-    color: 0x1a0522, emissive: 0xff2266, emissiveIntensity: 1.1, metalness: 0.6, roughness: 0.3,
+    color: 0x2a0a33, emissive: 0xff2266, emissiveIntensity: 0.6, metalness: 0.6, roughness: 0.3,
   });
   const disc = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.6, 0.55, 20), mat);
   g.add(disc);
